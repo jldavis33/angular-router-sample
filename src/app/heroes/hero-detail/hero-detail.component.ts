@@ -1,20 +1,42 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Hero } from '../hero';
+import { HeroService } from '../hero.service';
+import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-hero-detail',
-  templateUrl: './hero-detail.component.html',
-  styleUrls: ['./hero-detail.component.css']
+    selector: 'app-hero-detail',
+    templateUrl: './hero-detail.component.html',
+    styleUrls: ['./hero-detail.component.css']
 })
 export class HeroDetailComponent implements OnInit {
 
-  @Input() hero: Hero | undefined;
+    hero$!: Observable<Hero>;
 
-  constructor() { }
+    constructor(
+        private _route: ActivatedRoute,
+        private _router: Router,
+        private _service: HeroService
+    ) {
+    }
 
-  ngOnInit(): void {
-  }
+    ngOnInit(): void {
+        /*
+        todo: ~ create back/next hero feature
+        // When the map changes,
+        this.hero$ = this._route.paramMap.pipe(
+            switchMap( (params: ParamMap) =>
+                // gets the id parameter from the changed parameters.
+                this._service.getHero( params.get('id')! )
+            )
+        );
+        */
 
+        // use a 'snapshot' as we wont be reusing component between Hero views
+        const id = this._route.snapshot.paramMap.get('id')!;
+
+        this.hero$ = this._service.getHero(id);
+    }
 }
 
 
