@@ -21,7 +21,19 @@ export class HeroDetailComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        /*
+        // use a 'snapshot' as we wont be reusing component between Hero views
+        const id = this._route.snapshot.paramMap.get('id')!;
+
+        this.hero$ = this._service.getHero(id);
+    }
+
+    gotoHeroes(hero: Hero): void {
+        const heroId = hero ? hero.id : null;
+        this._router.navigate(['/heroes', { id: heroId }])
+    }
+
+    /*
+    private _example(): void {
         todo: ~ create back/next hero feature
         // When the map changes,
         this.hero$ = this._route.paramMap.pipe(
@@ -30,13 +42,8 @@ export class HeroDetailComponent implements OnInit {
                 this._service.getHero( params.get('id')! )
             )
         );
-        */
-
-        // use a 'snapshot' as we wont be reusing component between Hero views
-        const id = this._route.snapshot.paramMap.get('id')!;
-
-        this.hero$ = this._service.getHero(id);
     }
+    */
 }
 
 
